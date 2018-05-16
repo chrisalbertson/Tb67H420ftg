@@ -3,6 +3,11 @@
 
 #include "Arduino.h"
 
+// Uncomment of of the following #defines depending on your hardware
+// #define USING_ARDUINO_UNO
+#define USING_STM32DUINO
+
+
 /*
   Copyright 2018 Chris Albertson 
   
@@ -10,12 +15,10 @@
     it under the terms of the GNU Lesser General Public License (LGPL) 
     as published by the Free Software Foundation, either version 3 of
     the License, or (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -128,7 +131,20 @@ class Tb67h420ftg
         xxx[0] controls motor A outputs
         xxx[1] controls motor B outputs */
 
+    /* Arduino UNO and TB67 are conected as follows:
+     *  GND -- GND
+     *  D11 -- INA1
+     *  D10 -- INA2
+     *  D9  -- PWMA
+     *  D8  -- INB1
+     *  D7  -- INB2
+     *  D6  -- PWMB
+     *  D5  -- LO1
+     *  D4  -- LO2
+     */
+
     /* STM32 and TB67 are conected as follows:
+     *  GND -- GND
      *  PB0 -- INA1
      *  PA7 -- INA2
      *  PA6 -- PWMA
@@ -138,21 +154,24 @@ class Tb67h420ftg
      *  PA2 -- LO1
      *  PA1 -- LO2
      */
-        
+
+#ifdef  USING_ARDUINO_UNO     
+    const byte in1pin[2] = {D11, D8};
+    const byte in2pin[2] = {D10, D7};
+    const byte pwmpin[2] = {D9,  D6};
+    const byte lo1pin    = D5;
+    const byte lo2pin    = D4;
+#endif
+    
+#ifdef  USING_STM32DUINO      
     const byte in1pin[2] = {PB0, PA5};
     const byte in2pin[2] = {PA7, PA4};
     const byte pwmpin[2] = {PA6, PA3};
     const byte lo1pin    = PA2;
     const byte lo2pin    = PA1;
+#endif
 
     int InstalledDirection[2];
 };
 
-
 #endif /* TB67H420FTG_H */
-
-
-
-
-
-
