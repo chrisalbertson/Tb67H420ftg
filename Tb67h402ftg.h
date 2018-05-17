@@ -77,7 +77,10 @@ class Tb67h420ftg
     }
 
     void clearFault(byte motor) {
-      
+      digitalWrite(in1pin[MOTOR_A], LOW);
+      digitalWrite(in2pin[MOTOR_A], LOW);
+      digitalWrite(in1pin[MOTOR_B], LOW);
+      digitalWrite(in2pin[MOTOR_B], LOW);
     }
     
     void brake(byte motor) {
